@@ -4,19 +4,21 @@ using System.Reflection;
 
 namespace AutoMapper.ReflectionProfile
 {
-    public abstract class AutoMappingProfieBase : Profile
+    /// <summary>
+    /// Implements a profile for AutoMapper that allows to create maps according to contracts of interfaces <see cref="IMapFrom{T}"/> and <see cref="IMapTo{T}"/>.
+    /// All assemblies connected to the application will be scanned.
+    /// </summary>
+    public class ReflectionProfile : Profile
     {
-        public AutoMappingProfieBase(Assembly assembly)
+        public ReflectionProfile()
         {
-            Configure(assembly);
+            Configure(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        private void Configure(Assembly assembly)
+        private void Configure(params Assembly[] assemblies)
         {
-            var types = assembly
-                .GetTypes()
-                .Where(t => !t.IsAbstract && t.GetInterfaces()
-                                              .Any(IsMapInterface));
+            var types = assemblies.SelectMany(a => a.GetTypes()
+                                  .Where(t => !t.IsAbstract && t.GetInterfaces().Any(IsMapInterface)));
 
             foreach (var type in types)
             {

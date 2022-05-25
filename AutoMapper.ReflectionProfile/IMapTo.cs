@@ -1,7 +1,14 @@
 ﻿namespace AutoMapper.ReflectionProfile
 {
-    public interface IMapTo<T>
+    /// <summary>
+    /// Specifies that <see cref="ReflectionProfile"/> should create a map from type that inherits this contract to <see cref="TDestination"/>.
+    /// </summary>
+    /// <typeparam name="TDestination">Type to convert to.</typeparam>
+    public interface IMapTo<TDestination>
     {
-        void Mapping(Profile profile) => profile.CreateMap(GetType(), typeof(T));
+        /// <summary>
+        /// Create map.
+        /// </summary>
+        void Mapping(Profile profile) => profile.CreateMap(GetType(), typeof(TDestination));
     }
 }
