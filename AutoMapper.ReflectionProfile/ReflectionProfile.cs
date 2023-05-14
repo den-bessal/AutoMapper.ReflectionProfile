@@ -38,7 +38,8 @@ namespace AutoMapper.ReflectionProfile
         {
             return @interface.IsGenericType 
                 && (@interface.GetGenericTypeDefinition() == typeof(IMapFrom<>) 
-                    || @interface.GetGenericTypeDefinition() == typeof(IMapTo<>));
+                    || @interface.GetGenericTypeDefinition() == typeof(IMapTo<>)
+                    || @interface.GetGenericTypeDefinition() == typeof(IMap<,>));
         }
     }
 }
